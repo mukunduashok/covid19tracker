@@ -1,0 +1,38 @@
+.confirmedArrowUpStyle {
+    border: solid red;
+    border-width: 0 3px 3px 0;
+    transform: rotate(-135deg);
+    --webkit-transform: rotate(-135deg);
+    display: inline-block;
+    padding: 3px;
+}
+
+.receoveredArrowUpStyle {
+    border: solid greenyellow;
+    border-width: 0 3px 3px 0;
+    transform: rotate(-135deg);
+    --webkit-transform: rotate(-135deg);
+    display: inline-block;
+    padding: 3px;
+}
+
+.tableHeaderStyle {
+    text-align: center;
+}
+
+.modal-dialog {
+    max-width: fit-content;
+}
+
+.modal-content {
+    background-color: #343a40;
+}
+
+.modal-title.h4 {
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.close {
+    color: #fff;
+}
