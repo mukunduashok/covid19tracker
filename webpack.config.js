@@ -2,12 +2,12 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: "./main.jsx",
+    entry: "./src/main.jsx",
     mode: "development",
     devtool: "inline-source-map",
     output: {
-        path: path.join(__dirname, '/bundle'),
-        filename: 'index_bundle.js'
+        path: path.join(__dirname, '/public'),
+        filename: 'index.js'
     },
     devServer: {
         inline: true,
