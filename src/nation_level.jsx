@@ -35,18 +35,21 @@ class DailyCases extends BasePlot {
           plot_bgcolor: "rgb(72, 79, 87)",
           font: {
             color: "rgb(255, 255, 255)"
-          }
-        }
+          },
+          barmode: 'relative',
+        },
+        config: { responsive: true }
       });
   }
 
   render() {
     return (
-      <div id="daily_cases">
+      <div id="daily_cases" className="content-padding">
         <Plot
           data={this.state.data}
           layout={this.state.layout}
-          style={{ width: "100%" }}
+          config={this.state.config}
+          style={{ width: "100%", minHeight: "500px" }}
         />
       </div>
     );
@@ -106,7 +109,7 @@ class StateWiseCases extends BasePlot {
     })
 
     return (
-      <div id="state_wise_cases">
+      <div id="state_wise_cases" className="content-padding">
         <br></br>
         <DistrictWiseStats
           show={this.state.showModal}
@@ -126,6 +129,5 @@ class StateWiseCases extends BasePlot {
     )
   }
 }
-
 
 export { DailyCases, StateWiseCases };
