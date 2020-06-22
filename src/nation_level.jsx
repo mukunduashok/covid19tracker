@@ -1,12 +1,13 @@
 import moment from 'moment';
-import { BasePlot, React, Plot } from './base_plot.jsx';
+import { BasePlot, React } from './base_plot.jsx';
 import DistrictWiseStats from "./state_level.jsx";
+import { Bar } from 'react-chartjs-2';
 
 
 class DailyCases extends BasePlot {
   constructor(props) {
     super(props);
-    this.state = { data: [], layout: {}, frames: [], config: {} }
+    this.state = { data: {}, options: {} }
   }
 
   componentDidMount() {
@@ -28,28 +29,31 @@ class DailyCases extends BasePlot {
     });
     this.setState(
       {
-        data: [{ x: x_values, y: y_values, type: "bar" }],
-        layout: {
-          title: "Daily Trend - India",
-          paper_bgcolor: "rgb(52, 58, 64)",
-          plot_bgcolor: "rgb(72, 79, 87)",
-          font: {
-            color: "rgb(255, 255, 255)"
-          },
-          barmode: 'relative',
+        data: {
+          labels: x_values,
+          datasets: [
+            {
+              label: "Daily Cases",
+              backgroundColor: "rgb(72, 79, 87)",
+              borderWidth: 1,
+              data: y_values,
+            }
+          ]
         },
-        config: { responsive: true }
+        options: {
+          title: { display: true, text: "OVERALL DAILY CASES", fontSize: 20 },
+          legend: { display: false },
+        }
       });
   }
 
   render() {
     return (
       <div id="daily_cases" className="content-padding">
-        <Plot
+        <Bar
           data={this.state.data}
-          layout={this.state.layout}
-          config={this.state.config}
-          style={{ width: "100%", minHeight: "500px" }}
+          options={this.state.options}
+          height="100px"
         />
       </div>
     );

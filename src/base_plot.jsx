@@ -1,12 +1,10 @@
 import React from 'react';
-import Plot from 'react-plotly.js';
 import Api from './api-requests';
 import ApiConstants from './constants.js';
 
 class BasePlot extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { data: [], layout: {}, frames: [], config: {} }
         this.api = new Api();
         this.constants = new ApiConstants();
         this.tempYear = "2020" // Tech Debt: Year needs to be dynamic. Needs update
@@ -24,4 +22,4 @@ class BasePlot extends React.Component {
     }
 }
 
-export { BasePlot, React, Plot };
+export { BasePlot, React };

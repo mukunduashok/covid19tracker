@@ -18,9 +18,6 @@ class App extends Component {
             <MenuBar />
             <DailyCases />
             <StateWiseCases />
-            {/* <DistrictWiseStats
-               stateName="Tamil Nadu"
-            /> */}
          </div>
       );
    }

@@ -4,14 +4,28 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry: "./src/main.jsx",
     mode: "development",
-    devtool: "inline-source-map",
+    // devtool: "inline-source-map",
     output: {
         path: path.join(__dirname, '/public'),
-        filename: 'index.js'
+        filename: '[name].index.js'
     },
     devServer: {
         inline: true,
         port: 8001
+    },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all'
+                }
+            }
+        },
+        runtimeChunk: {
+            name: 'manifest'
+        }
     },
     module: {
         rules: [{
