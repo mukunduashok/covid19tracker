@@ -123,7 +123,7 @@ class StateWiseCases extends BasePlot {
       plotData.push(
         <tr key={index}>
           <td scope="row">
-            <a href="#" onClick={this.openDistrictTable.bind(this)}>
+            <a href="#" style={{ fontSize: "20px" }} onClick={this.openDistrictTable.bind(this)}>
               {item.state}
             </a>
             <span>&nbsp;&nbsp;&nbsp;</span>
