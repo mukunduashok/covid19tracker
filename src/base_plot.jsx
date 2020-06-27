@@ -20,6 +20,49 @@ class BasePlot extends React.Component {
         const data = await this.api.getData(this.constants.API_URLS.COVID_19_DISTRICT_WISE_DATA);
         return data;
     }
+
+    bar_data(options) {
+        /**
+         * options: {
+         *  x_values: [] // Required
+         *  y_values: [] // Required
+         *  bgColor: <rgb / rgba> // optional
+         *  borderWidth: <number> // optional
+         * }
+         */
+        const bgColor = options.bgColor == undefined ? "rgb(72, 79, 87)" : options.bgColor;
+        const borderWidth = options.borderWidth == undefined ? 1 : options.borderWidth;
+        return {
+            labels: options.x_values,
+            datasets: [
+                {
+                    backgroundColor: bgColor,
+                    borderWidth: borderWidth,
+                    hoverBorderColor: "rgb(234, 249, 4)",
+                    data: options.y_values,
+                }
+            ]
+        }
+    }
+
+    bar_options(options) {
+        /**
+         * options = {
+         *  chart_title: <string> // Required
+         *  title_font_size: <number> // optional
+         *  showLegend: <true / false> // optional
+         * }
+         */
+        const title_font_size = options.title_font_size == undefined ? 20 : options.title_font_size;
+        const showLegend = options.showLegend == undefined ? false : showLegend;
+        return {
+            title: { display: true, text: options.chart_title, fontSize: title_font_size },
+            legend: { display: showLegend },
+            tooltips: {
+                backgroundColor: "rgb(49, 106, 99)",
+            }
+        }
+    }
 }
 
 export { BasePlot, React };

@@ -22,6 +22,7 @@
 
 .modal-dialog {
     max-width: fit-content;
+    min-width: 60%;
 }
 
 .modal-content {
@@ -39,4 +40,10 @@
 
 .content-padding {
     padding-top: 43px;
+}
+
+.nav-tabs .nav-link.active {
+    color: #b4bfca;
+    background-color: #343a40;
+    border-color: #27ce7d #cc9a1d #35ca5f
 }
