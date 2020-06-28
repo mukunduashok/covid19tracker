@@ -52,17 +52,16 @@ class DailyCases extends BasePlot {
       <div id="daily_cases" className="content-padding">
         <Tabs className="nav-justified" defaultActiveKey="profile" id="select_display" activeKey={this.state.displayType}
           onSelect={(e) => {
-            this.updatePlotData(30, { cumulative: e === "cumulative" });
-            this.setState({ displayType: e, key: 30 });
+            this.updatePlotData(this.state.key, { cumulative: e === "cumulative" });
+            this.setState({ displayType: e, key: this.state.key });
           }}>
           <Tab eventKey="daily" title="DAILY"></Tab>
           <Tab eventKey="cumulative" title="CUMULATIVE"></Tab>
         </Tabs>
         <Tabs className="nav-justified" defaultActiveKey="profile" id="select_days" activeKey={this.state.key}
           onSelect={(k) => {
-            const displayType = this.state.displayType === "cumulative" ? "cumulative" : "daily"
-            this.updatePlotData(Number(k), { cumulative: displayType === "cumulative" });
-            this.setState({ key: k, displayType: displayType });
+            this.updatePlotData(Number(k), { cumulative: this.state.displayType === "cumulative" });
+            this.setState({ key: k, displayType: this.state.displayType });
           }}>
           <Tab eventKey="30" title="30 DAYS"></Tab>
           <Tab eventKey="45" title="45 DAYS"></Tab>
