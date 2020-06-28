@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { Tabs, Tab } from 'react-bootstrap';
 import { BasePlot, React } from './base_plot.jsx';
 import DistrictWiseStats from "./state_level.jsx";
@@ -28,7 +27,7 @@ class DailyCases extends BasePlot {
     const data = await this.api.getData(this.constants.API_URLS.COVID_19_STATE_WISE_DATA);
     const plotData = await data.data.cases_time_series;
     plotData.forEach((item, index) => {
-      this.x_values.push(moment(item.date + this.tempYear + " 00:00:00 Z").utc().format("YYYY-MM-DD"));
+      this.x_values.push(new Date(item.date + this.tempYear).toLocaleDateString())
       this.y_values.push(item.totalconfirmed);
       this.y_daily.push(item.dailyconfirmed)
     });
