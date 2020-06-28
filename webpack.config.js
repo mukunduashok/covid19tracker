@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const WebpackBundleAnalyzer = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const fileLoader = require("file-loader");
 
 module.exports = {
@@ -53,6 +54,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './index.html',
             favicon: './assets/covid19.png',
-        })
+        }),
+        // new WebpackBundleAnalyzer(),
     ]
 }

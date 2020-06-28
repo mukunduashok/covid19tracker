@@ -1,8 +1,8 @@
 import { Tabs, Tab } from 'react-bootstrap';
 import { BasePlot, React } from './base_plot.jsx';
+import { Bar } from 'react-chartjs-2';
 import DistrictWiseStats from "./state_level.jsx";
 import TrendBar from "./daily_trend.jsx";
-import { Bar } from 'react-chartjs-2';
 import state_trend from "../assets/trend.png";
 
 
