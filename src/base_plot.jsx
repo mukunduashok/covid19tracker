@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Api from './api-requests';
 import ApiConstants from './constants.js';
+import { Dropdown } from 'react-bootstrap';
 
-class BasePlot extends React.Component {
+class BasePlot extends Component {
     constructor(props) {
         super(props);
         this.api = new Api();
         this.constants = new ApiConstants();
-        this.tempYear = "2020" // Tech Debt: Year needs to be dynamic. Needs update
+        this.tempYear = "2020"; // Tech Debt: Year needs to be dynamic. Needs update 
+        this.stateNames = this.stateList();
     }
     // Find a right place to call below pull data methods
 
@@ -19,6 +21,15 @@ class BasePlot extends React.Component {
     async pullDistrictWiseData() {
         const data = await this.api.getData(this.constants.API_URLS.COVID_19_DISTRICT_WISE_DATA);
         return data;
+    }
+
+    stateList() {
+        // State list dropdown HTML
+        const stateNames = []
+        for (const stateName in this.constants.STATE_CODE_MAP) {
+            stateNames.push(<Dropdown.Item key={stateName} eventKey={stateName}>{stateName}</Dropdown.Item>)
+        }
+        return stateNames
     }
 
     bar_data(options) {
@@ -38,7 +49,7 @@ class BasePlot extends React.Component {
                 {
                     backgroundColor: bgColor,
                     borderWidth: borderWidth,
-                    hoverBorderColor: "rgb(234, 249, 4)",
+                    hoverBorderColor: "rgb(136, 15, 225)",
                     data: options.y_values,
                 }
             ]

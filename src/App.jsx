@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MenuBar from "./menu_bar.jsx";
-import { DailyCases, StateWiseCases } from "./nation_level.jsx";
+import { DailyCases } from "./nation_level.jsx";
+import HomePage from "./home.jsx";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../styles/stylesheet.css"
 
@@ -17,7 +18,7 @@ class App extends Component {
          <div style={divStyle} className="bg-dark">
             <MenuBar />
             <DailyCases />
-            <StateWiseCases />
+            <HomePage />
          </div>
       );
    }

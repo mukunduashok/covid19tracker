@@ -1,9 +1,6 @@
 import { Tabs, Tab } from 'react-bootstrap';
 import { BasePlot, React } from './base_plot.jsx';
 import { Bar } from 'react-chartjs-2';
-import DistrictWiseStats from "./state_level.jsx";
-import TrendBar from "./daily_trend.jsx";
-import state_trend from "../assets/trend.png";
 
 
 class DailyCases extends BasePlot {
@@ -83,7 +80,7 @@ class DailyCases extends BasePlot {
 class StateWiseCases extends BasePlot {
   constructor(props) {
     super(props);
-    this.state = { headers: [], plotData: [], showModal: false, stateName: null, showTrendModal: false }
+    this.state = { headers: [], plotData: [], showStats: props.showStats }
   }
 
   componentDidMount() {
@@ -94,14 +91,6 @@ class StateWiseCases extends BasePlot {
     this.api.source.cancel("Operation cancelled by the user");
   }
 
-  openDistrictTable(element) {
-    this.setState({ showModal: true, stateName: element.target.text, showTrendModal: false });
-  }
-
-  openTrendCharts(element) {
-    this.setState({ showTrendModal: true, showModal: false, stateName: element.target.getAttribute("data-value") });
-  }
-
   async plotStateWiseTable() {
     const data = await this.api.getData(this.constants.API_URLS.COVID_19_STATE_WISE_DATA);
     const plotData = data.data.statewise;
@@ -110,6 +99,16 @@ class StateWiseCases extends BasePlot {
       headers: headers,
       plotData: plotData
     })
+  }
+
+  static getDerivedStateFromProps(props, currentState) {
+    if (currentState.showStats != props.showStats) {
+      return {
+        showStats: props.showStats
+      }
+    } else {
+      return null;
+    }
   }
 
   render() {
@@ -127,15 +126,7 @@ class StateWiseCases extends BasePlot {
       const newDeathsHtml = newDeaths != 0 ? <span>&nbsp;&nbsp;<span className="confirmedArrowUpStyle"></span>&nbsp;{newDeaths}</span> : null;
       plotData.push(
         <tr key={index}>
-          <td scope="row">
-            <a href="#" style={{ fontSize: "20px" }} onClick={this.openDistrictTable.bind(this)}>
-              {item.state}
-            </a>
-            <span>&nbsp;&nbsp;&nbsp;</span>
-            <a href="#" onClick={this.openTrendCharts.bind(this)}>
-              <img alt="trend_chart" data-value={item.state} src={state_trend} width="30" height="20" />
-            </a>
-          </td>
+          <td scope="row">{item.state}</td>
           <td>{item.confirmed} {newConfirmedHtml}</td>
           <td>{item.active}</td>
           <td>{item.recovered} {newRecoveredHtml}</td>
@@ -143,30 +134,25 @@ class StateWiseCases extends BasePlot {
         </tr>
       )
     })
-
-    return (
-      <div id="state_wise_cases" className="content-padding">
-        <br></br>
-        <DistrictWiseStats
-          show={this.state.showModal}
-          stateName={this.state.stateName}
-        />
-        <TrendBar
-          show={this.state.showTrendModal}
-          stateName={this.state.stateName}
-        />
-        <table className="table table-dark table-striped table-bordered">
-          <thead className="thead-dark">
-            <tr>
-              {headerValues}
-            </tr>
-          </thead>
-          <tbody>
-            {plotData}
-          </tbody>
-        </table>
-      </div>
-    )
+    if (this.state.showStats) {
+      return (
+        <div id="state_wise_cases" className="content-padding">
+          <br></br>
+          <table className="table table-dark table-striped table-bordered">
+            <thead className="thead-dark">
+              <tr>
+                {headerValues}
+              </tr>
+            </thead>
+            <tbody>
+              {plotData}
+            </tbody>
+          </table>
+        </div>
+      )
+    } else {
+      return ("")
+    }
   }
 }
 

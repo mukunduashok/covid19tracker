@@ -1,27 +1,38 @@
-import { BasePlot, React, Plot } from './base_plot.jsx';
-import { Modal, Button } from 'react-bootstrap';
+import { BasePlot, React } from './base_plot.jsx';
+import { DropdownButton, Dropdown } from 'react-bootstrap';
 
 class DistrictWiseStats extends BasePlot {
     constructor(props) {
         super(props);
-        this.state = { show: props.show, stateName: null, headers: [], plotData: [], data: null }
+        this.state = { stateName: "Maharashtra", headers: [], plotData: [], data: null, showStats: props.showStats, stateSelect: "Maharashtra" }
         this.getDistrictWiseData();
+        this.handleSelect = this.handleSelect.bind(this);
     }
 
     componentWillUnmount() {
         this.api.source.cancel("Operation cancelled by the user");
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.show != this.state.show) {
-            this.districtWiseData(nextProps.stateName);
-            this.setState({ show: nextProps.show, stateName: nextProps.stateName });
+    static getDerivedStateFromProps(props, currentState) {
+        if (currentState.showStats != props.showStats) {
+            return {
+                showStats: props.showStats
+            }
+        } else {
+            return null;
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.stateName !== this.props.stateName) {
+            this.districtWiseData(this.props.stateName);
         }
     }
 
     async getDistrictWiseData() {
         const data = await this.api.getData(this.constants.API_URLS.COVID_19_DISTRICT_WISE_DATA);
         this.setState({ data: data });
+        this.districtWiseData(this.state.stateName);
     }
 
     districtWiseData(stateName) {
@@ -45,7 +56,10 @@ class DistrictWiseStats extends BasePlot {
         }
     }
 
-    handleClose() { this.setState({ show: false }) }
+    handleSelect(e) {
+        this.districtWiseData(e);
+        this.setState({ stateSelect: e });
+    }
 
     render() {
         const headerValues = [];
@@ -54,6 +68,7 @@ class DistrictWiseStats extends BasePlot {
             headerValues.push(<th className="tableHeaderStyle" key={index}>{item}</th>)
         });
         const stateData = this.state.plotData;
+        // Cumulative daily values
         for (const item in stateData) {
             const newConfirmed = stateData[item].delta.confirmed;
             const newRecovered = stateData[item].delta.recovered;
@@ -71,13 +86,14 @@ class DistrictWiseStats extends BasePlot {
                 </tr>
             )
         }
-        return (
-            <Modal show={this.state.show} onHide={this.handleClose.bind(this)} dialogClassName="modal-90w">
-                <Modal.Header closeButton>
-                    <Modal.Title>{this.state.stateName}</Modal.Title>
-                </Modal.Header>
 
-                <Modal.Body>
+        if (this.state.showStats) {
+            return (
+                <div id="district_wise_cases" className="content-padding">
+                    <DropdownButton alignRight id="state_select_district_data" title={this.state.stateSelect} onSelect={this.handleSelect}>
+                        {this.stateNames}
+                    </DropdownButton>
+                    <br></br>
                     <table className="table table-dark table-striped table-bordered">
                         <thead className="thead-dark">
                             <tr>
@@ -88,13 +104,11 @@ class DistrictWiseStats extends BasePlot {
                             {plotData}
                         </tbody>
                     </table>
-                </Modal.Body>
-
-                <Modal.Footer>
-                    <Button variant="primary" onClick={this.handleClose.bind(this)}>Close</Button>
-                </Modal.Footer>
-            </Modal>
-        )
+                </div>
+            );
+        } else {
+            return ("");
+        }
     }
 }
 
